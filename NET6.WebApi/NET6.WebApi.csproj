@@ -18,4 +18,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NET6.Shared\NET6.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
