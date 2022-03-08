@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET6.WebApi", "NET6.WebApi\NET6.WebApi.csproj", "{39BFA222-DC3C-4934-AC0E-71DB6C8DD09F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NET6.WebApi", "NET6.WebApi\NET6.WebApi.csproj", "{39BFA222-DC3C-4934-AC0E-71DB6C8DD09F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET6.Shared", "NET6.Shared\NET6.Shared.csproj", "{057A00CD-097F-4BB3-94C7-BEE576077F97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{39BFA222-DC3C-4934-AC0E-71DB6C8DD09F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39BFA222-DC3C-4934-AC0E-71DB6C8DD09F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39BFA222-DC3C-4934-AC0E-71DB6C8DD09F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{057A00CD-097F-4BB3-94C7-BEE576077F97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{057A00CD-097F-4BB3-94C7-BEE576077F97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{057A00CD-097F-4BB3-94C7-BEE576077F97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{057A00CD-097F-4BB3-94C7-BEE576077F97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
