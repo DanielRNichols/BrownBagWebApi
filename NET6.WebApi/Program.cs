@@ -1,6 +1,13 @@
+using NET6.WebApi.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add Repositories
+builder.Services.AddRepositories(options =>
+    options.UseSql(builder.Configuration.GetConnectionString("BrownBagDbConnectionString"))
+);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
