@@ -18,6 +18,9 @@ namespace NET6.Shared.Models
         public string ShortDescription { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Summary { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+
 
         [Write(false)]
         public IList<Presenter> Presenters { get; set; } = new List<Presenter>();

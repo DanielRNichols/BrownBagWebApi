@@ -73,6 +73,8 @@ namespace NET6.WebApi.Controllers
                 _logger.LogInformation("Adding item of type {type}", typeof(T));
 
                 var item = _mapper.Map<T>(dto);
+                // Set the CreateAt date
+                item.CreatedAt = DateTime.Now;
                 var id = await _repo.AddAsync(item);
                 var response = new ApiResponse<int> { Data = id };
 

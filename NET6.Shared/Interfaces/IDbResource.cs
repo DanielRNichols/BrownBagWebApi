@@ -9,5 +9,7 @@ namespace NET6.Shared.Interfaces
     public interface IDbResource
     {
         int Id { get; set; }
+        DateTime CreatedAt { get; set; }
+        DateTime? ModifiedAt { get; set; }
     }
 }

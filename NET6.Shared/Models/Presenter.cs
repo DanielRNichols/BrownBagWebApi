@@ -17,6 +17,9 @@ namespace NET6.Shared.Models
         public string Bio { get; set; } = string.Empty;
         public string Image { get; set; } = string.Empty;
         public string ImageSmall { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+
 
         [Write(false)]
         public IList<Session> Sessions { get; set; } = new List<Session>();

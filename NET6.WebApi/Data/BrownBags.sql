@@ -11,6 +11,8 @@ CREATE TABLE [dbo].[Presenters](
 	[Bio] [nvarchar](max) NULL,
 	[Image] [nvarchar](512) NULL,
 	[ImageSmall] [nvarchar](512) NULL,
+	[CreatedAt] [datetime2](7) NOT NULL,
+	[ModifiedAt] [datetime2](7) NULL,
  CONSTRAINT [PK_Presenters] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -29,6 +31,8 @@ CREATE TABLE [dbo].[Sessions](
 	[ShortDescription] [nvarchar](256) NULL,
 	[Description] [nvarchar](1024) NULL,
 	[Summary] [nvarchar](max) NULL,
+	[CreatedAt] [datetime2](7) NOT NULL,
+	[ModifiedAt] [datetime2](7) NULL,
  CONSTRAINT [PK_Sessions] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -44,6 +48,8 @@ CREATE TABLE [dbo].[SessionsPresenters](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[SessionId] [int] NOT NULL,
 	[PresenterId] [int] NOT NULL,
+	[CreatedAt] [datetime2](7) NOT NULL,
+	[ModifiedAt] [datetime2](7) NULL,
  CONSTRAINT [PK_SessionsPresenters] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

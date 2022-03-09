@@ -15,5 +15,8 @@ namespace NET6.Shared.Models
         public int Id { get; set; }
         public int SessionId { get; set; }
         public int PresenterId { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+
     }
 }
