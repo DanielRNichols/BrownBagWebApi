@@ -1,8 +1,12 @@
 using NET6.WebApi.Extensions;
+using NET6.WebApi.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(RepositoryMappingProfiles));
 
 // Add Repositories
 builder.Services.AddRepositories(options =>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NET6.Shared.Interfaces;
 using NET6.Shared.Models;
@@ -8,15 +9,19 @@ namespace NET6.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BaseRepositoryController<T> : ControllerBase where T : class, IDbResource
+    public class BaseRepositoryController<T, P> : ControllerBase 
+        where T : class, IDbResource  // Model Class
+        where P : class  // PostDto class
     {
         private readonly ILogger _logger;
         private readonly IBaseDbRepository<T> _repo;
+        private readonly IMapper _mapper;
 
-        public BaseRepositoryController(ILogger logger, IBaseDbRepository<T> repo)
+        public BaseRepositoryController(ILogger logger, IBaseDbRepository<T> repo, IMapper mapper)
         {
             _logger = logger;
             _repo = repo;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -53,6 +58,25 @@ namespace NET6.WebApi.Controllers
                 var response = new ApiResponse<T?> { Data = item };
 
                 return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return ServerError(ex);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ApiResponse<int>>> Add([FromBody] P dto)
+        {
+            try
+            {
+                _logger.LogInformation("Adding item of type {type}", typeof(T));
+
+                var item = _mapper.Map<T>(dto);
+                var id = await _repo.AddAsync(item);
+                var response = new ApiResponse<int> { Data = id };
+
+                return CreatedAtAction(nameof(GetById), new { Id = id }, response);
             }
             catch (Exception ex)
             {
