@@ -85,18 +85,18 @@ Insert into Sessions (Name, PresentationDate, ShortDescription) Values
 GO
 
 Insert Into SessionsPresenters (SessionId, PresenterId) Values
-(6,3),
+(1,1),
+(2,3),
+(3,2),
+(4,5),
+(5,1),
+(6,2),
+(7,2),
+(7,3),
 (7,5),
-(7,4),
-(8,7),
-(9,3),
-(10,4),
-(11,4),
-(11,5),
-(11,7),
-(12,6),
-(13,3),
-(13,6)
+(8,4),
+(9,1),
+(9,4)
 GO
 
 Select * from Presenters;
