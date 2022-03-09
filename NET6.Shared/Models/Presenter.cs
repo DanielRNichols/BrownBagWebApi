@@ -9,16 +9,12 @@ using System.Threading.Tasks;
 namespace NET6.Shared.Models
 {
     [Table("Presenters")]
-    public class Presenter : IDbResource
+    public class Presenter : BaseDbResource
     {
-        [Key]
-        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Bio { get; set; } = string.Empty;
         public string Image { get; set; } = string.Empty;
         public string ImageSmall { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
-        public DateTime? ModifiedAt { get; set; }
 
 
         [Write(false)]

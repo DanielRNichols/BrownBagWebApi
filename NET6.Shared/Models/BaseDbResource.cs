@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace NET6.Shared.Models
 {
-    [Table("SessionsPresenters")]
-    public class SessionsPresenters : BaseDbResource
+    public abstract class BaseDbResource : IDbResource
     {
-        public int SessionId { get; set; }
-        public int PresenterId { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
 
     }
 }
