@@ -9,7 +9,8 @@ namespace NET6.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PresentersRepositoryController : BaseRepositoryController<Presenter, PresenterPostDto>
+    public class PresentersRepositoryController 
+        : BaseRepositoryController<Presenter, PresenterPostDto, PresenterPutDto>
     {
         public PresentersRepositoryController(
             ILogger<PresentersRepositoryController> logger,

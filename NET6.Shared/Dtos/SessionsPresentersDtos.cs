@@ -11,4 +11,11 @@ namespace NET6.Shared.Dtos
         public int SessionId { get; set; }
         public int PresenterId { get; set; }
     }
+
+    public class SessionsPresentersPutDto : SessionsPresentersPostDto
+    {
+        public DateTime CreatedAt { get; set; }
+    }
+
+
 }

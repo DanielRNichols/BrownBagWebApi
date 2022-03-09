@@ -17,4 +17,10 @@ namespace NET6.Shared.Dtos
         public string Description { get; set; } = string.Empty;
         public string Summary { get; set; } = string.Empty;
     }
+
+    public class SessionPutDto : SessionPostDto
+    {
+        public DateTime CreatedAt { get; set; }
+
+    }
 }

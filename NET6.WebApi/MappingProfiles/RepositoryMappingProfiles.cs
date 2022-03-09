@@ -9,8 +9,11 @@ namespace NET6.WebApi.MappingProfiles
         public RepositoryMappingProfiles()
         {
             CreateMap<PresenterPostDto, Presenter>();
+            CreateMap<PresenterPutDto, Presenter>();
             CreateMap<SessionPostDto, Session>();
-            CreateMap< SessionsPresentersPostDto,SessionsPresenters>();
+            CreateMap<SessionPutDto, Session>();
+            CreateMap<SessionsPresentersPostDto, SessionsPresenters>();
+            CreateMap<SessionsPresentersPutDto, SessionsPresenters>();
         }
     }
 }

@@ -16,4 +16,9 @@ namespace NET6.Shared.Dtos
         public string ImageSmall { get; set; } = string.Empty;
 
     }
+    public class PresenterPutDto : PresenterPostDto
+    {
+        public DateTime CreatedAt { get; set; }
+
+    }
 }

@@ -9,9 +9,10 @@ namespace NET6.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BaseRepositoryController<T, P> : ControllerBase 
+    public class BaseRepositoryController<T, P, U> : ControllerBase 
         where T : class, IDbResource  // Model Class
         where P : class  // PostDto class
+        where U : class   // PutDto class
     {
         private readonly ILogger _logger;
         private readonly IBaseDbRepository<T> _repo;
@@ -79,6 +80,51 @@ namespace NET6.WebApi.Controllers
                 var response = new ApiResponse<int> { Data = id };
 
                 return CreatedAtAction(nameof(GetById), new { Id = id }, response);
+            }
+            catch (Exception ex)
+            {
+                return ServerError(ex);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ApiResponse<bool>>> Update([FromRoute] int id, [FromBody] U dto)
+        {
+            try
+            {
+                _logger.LogInformation("Adding item of type {type}", typeof(T));
+
+                var item = _mapper.Map<T>(dto);
+                // Set item Id and ModifiedAt date
+                item.Id = id;
+                item.ModifiedAt = DateTime.Now;
+
+                var success = await _repo.UpdateAsync(item);
+                var response = new ApiResponse<bool> { Data = success };
+
+                return CreatedAtAction(nameof(GetById), new { Id = id }, response);
+            }
+            catch (Exception ex)
+            {
+                return ServerError(ex);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Delete item of type {type} with id = {id}", typeof(T), id);
+
+                var success = await _repo.DeleteAsync(id);
+                if (!success)
+                {
+                    _logger.LogWarning("Item of type {type} with id = {id} was not found", typeof(T), id);
+                    return NotFound();
+                }
+
+                return NoContent();
             }
             catch (Exception ex)
             {
