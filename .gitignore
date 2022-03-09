@@ -1,3 +1,4 @@
 .vs
 bin
 obj
+/NET6.WebApi/NET6.WebApi.csproj.user
