@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NET6.Shared.Interfaces;
 using NET6.Shared.Models;
+using NET6.WebApi.Database;
 using NET6.WebApi.Repositories;
 
 namespace NET6.WebApi.Controllers
@@ -26,12 +27,12 @@ namespace NET6.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<IList<T>?>>> GetAll()
+        public async Task<ActionResult<ApiResponse<IList<T>?>>> GetAll([FromQuery] QueryOptions? queryOptions)
         {
             try
             {
                 _logger.LogInformation("Get items of type {type}", typeof(T));
-                var items = await _repo.GetAllAsync();
+                var items = await _repo.GetAllAsync(queryOptions);
 
                 var response = new ApiResponse<IList<T>?> { Data = items };
 
@@ -44,12 +45,12 @@ namespace NET6.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ApiResponse<T>?>> GetById(int id)
+        public async Task<ActionResult<ApiResponse<T>?>> GetById(int id, [FromQuery] bool includeRelated)
         {
             try
             {
                 _logger.LogInformation("Get item of type {type} with id = {id}", typeof(T), id);
-                var item = await _repo.GetByIdAsync(id);
+                var item = await _repo.GetByIdAsync(id, includeRelated);
                 if (item == null)
                 {
                     _logger.LogWarning("Item of type {type} with id = {id} was not found", typeof(T), id);

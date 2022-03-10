@@ -15,13 +15,22 @@ namespace NET6.WebApi.Repositories
             _dbConfig = dbConfig;
         }
 
-        private IDbConnection GetConnection()
+        protected IDbConnection GetConnection()
         {
             if (_dbConfig.GetConnection == null)
-                throw new ArgumentNullException("Connection method not defined");
+                throw new Exception("Connection method not defined");
 
             return _dbConfig.GetConnection();
         }
+
+        protected string GetSelectStatement(string tableName, QueryOptions? queryOptions)
+        {
+            if (_dbConfig.GetSelectStatement == null)
+                throw new Exception("GetSelectStatement method not defined");
+
+            return _dbConfig.GetSelectStatement(tableName, queryOptions);
+        }
+
 
         public async Task<int> AddAsync(T item)
         {
@@ -39,7 +48,8 @@ namespace NET6.WebApi.Repositories
             return success;
         }
 
-        public async Task<IList<T>?> GetAllAsync()
+        // Base GetAllAsync does not deal with QueryOptions, must override to get this functionality
+        public virtual async Task<IList<T>?> GetAllAsync(QueryOptions? queryOptions = null)
         {
             using var dbConn = GetConnection();
             var items = await dbConn.GetAllAsync<T>();
@@ -47,7 +57,8 @@ namespace NET6.WebApi.Repositories
             return items.ToList();
         }
 
-        public async Task<T?> GetByIdAsync(int id)
+        // Base GetAllAsync does not deal with QueryOptions, must override to get this functionality
+        public virtual async Task<T?> GetByIdAsync(int id, bool includeRelated = false)
         {
             using var dbConn = GetConnection();
             var item = await dbConn.GetAsync<T>(id);
