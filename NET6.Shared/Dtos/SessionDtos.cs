@@ -7,6 +7,20 @@ using System.Threading.Tasks;
 
 namespace NET6.Shared.Dtos
 {
+    public class SessionResponseDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public DateTime PresentationDate { get; set; }
+        public string ShortDescription { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Summary { get; set; } = string.Empty;
+
+        public DateTime CreatedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+        public IList<PresenterResponseDto> Presenters { get; set; } = new List<PresenterResponseDto>();
+
+    }
     public class SessionPostDto
     {
         [Required]

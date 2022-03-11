@@ -10,9 +10,10 @@ namespace NET6.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BaseRepositoryController<T, P, U> : ControllerBase 
+    public class BaseRepositoryController<T, R, P, U> : ControllerBase 
         where T : class, IDbResource  // Model Class
-        where P : class  // PostDto class
+        where R : class   // ResponseDto class 
+        where P : class   // PostDto class
         where U : class   // PutDto class
     {
         private readonly ILogger _logger;
@@ -27,14 +28,14 @@ namespace NET6.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<IList<T>?>>> GetAll([FromQuery] QueryOptions? queryOptions)
+        public async Task<ActionResult<ApiResponse<IList<R>>>> GetAll([FromQuery] QueryOptions? queryOptions)
         {
             try
             {
                 _logger.LogInformation("Get items of type {type}", typeof(T));
                 var items = await _repo.GetAllAsync(queryOptions);
 
-                var response = new ApiResponse<IList<T>?> { Data = items };
+                var response = new ApiResponse<IList<R>> { Data = _mapper.Map<IList<R>>(items) };
 
                 return Ok(response);
             }
@@ -45,7 +46,7 @@ namespace NET6.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ApiResponse<T>?>> GetById(int id, [FromQuery] bool includeRelated)
+        public async Task<ActionResult<ApiResponse<R>>> GetById(int id, [FromQuery] bool includeRelated)
         {
             try
             {
@@ -57,7 +58,7 @@ namespace NET6.WebApi.Controllers
                     return NotFound();
                 }
 
-                var response = new ApiResponse<T?> { Data = item };
+                var response = new ApiResponse<R> { Data = _mapper.Map<R>(item) };
 
                 return Ok(response);
             }

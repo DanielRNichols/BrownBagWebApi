@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace NET6.Shared.Dtos
 {
+    public class SessionsPresentersResponseDto
+    {
+        public int SessionId { get; set; }
+        public int PresenterId { get; set; }
+    }
+
     public class SessionsPresentersPostDto
     {
         public int SessionId { get; set; }
