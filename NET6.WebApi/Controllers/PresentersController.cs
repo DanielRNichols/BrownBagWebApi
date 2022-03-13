@@ -1,23 +1,24 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NET6.Shared.Dtos;
 using NET6.Shared.Models;
+using NET6.WebApi.Database;
 using NET6.WebApi.Repositories;
 
 namespace NET6.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SessionsRepositoryController 
-        : BaseRepositoryController<Session, SessionResponseDto, SessionPostDto, SessionPutDto>
+    public class PresentersController 
+        : BaseRepositoryController<Presenter, PresenterResponseDto, PresenterPostDto, PresenterPutDto>
     {
-        public SessionsRepositoryController(
-            ILogger<SessionsRepositoryController> logger,
-            ISessionsRepository repo,
+        public PresentersController(
+            ILogger<PresentersController> logger,
+            IPresentersRepository repo,
             IMapper mapper) : base(logger, repo, mapper)
         {
-
         }
     }
 }
