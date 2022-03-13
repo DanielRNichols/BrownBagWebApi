@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NET6.Shared.Interfaces;
@@ -10,6 +11,7 @@ namespace NET6.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BaseRepositoryController<T, R, P, U> : ControllerBase 
         where T : class, IDbResource  // Model Class
         where R : class   // ResponseDto class 
@@ -28,7 +30,7 @@ namespace NET6.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<IList<R>>>> GetAll([FromQuery] QueryOptions? queryOptions)
+        public virtual async Task<ActionResult<ApiResponse<IList<R>>>> GetAll([FromQuery] QueryOptions? queryOptions)
         {
             try
             {
@@ -46,7 +48,7 @@ namespace NET6.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ApiResponse<R>>> GetById(int id, [FromQuery] bool includeRelated)
+        public virtual async Task<ActionResult<ApiResponse<R>>> GetById(int id, [FromQuery] bool includeRelated)
         {
             try
             {
@@ -69,7 +71,7 @@ namespace NET6.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ApiResponse<int>>> Add([FromBody] P dto)
+        public virtual async Task<ActionResult<ApiResponse<int>>> Add([FromBody] P dto)
         {
             try
             {
@@ -90,7 +92,7 @@ namespace NET6.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ApiResponse<bool>>> Update([FromRoute] int id, [FromBody] U dto)
+        public virtual async Task<ActionResult<ApiResponse<bool>>> Update([FromRoute] int id, [FromBody] U dto)
         {
             try
             {
@@ -113,7 +115,7 @@ namespace NET6.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public virtual async Task<ActionResult> Delete(int id)
         {
             try
             {

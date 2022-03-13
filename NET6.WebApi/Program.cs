@@ -1,9 +1,22 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using NET6.WebApi.Extensions;
 using NET6.WebApi.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add Auth0
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(options =>
+    {
+        options.Authority = "https://dev-ygero1dp.us.auth0.com/";
+        options.Audience = "brownbagsapi";
+    });
+
 
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(RepositoryMappingProfiles));
@@ -29,6 +42,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
