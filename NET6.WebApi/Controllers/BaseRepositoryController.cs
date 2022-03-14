@@ -32,114 +32,73 @@ namespace NET6.WebApi.Controllers
         [HttpGet]
         public virtual async Task<ActionResult<ApiResponse<IList<R>>>> GetAll([FromQuery] QueryOptions? queryOptions)
         {
-            try
-            {
-                _logger.LogInformation("Get items of type {type}", typeof(T));
-                var items = await _repo.GetAllAsync(queryOptions);
+            _logger.LogInformation("Get items of type {type}", typeof(T));
+            var items = await _repo.GetAllAsync(queryOptions);
 
-                var response = new ApiResponse<IList<R>> { Data = _mapper.Map<IList<R>>(items) };
+            var response = new ApiResponse<IList<R>> { Data = _mapper.Map<IList<R>>(items) };
 
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return ServerError(ex);
-            }
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         public virtual async Task<ActionResult<ApiResponse<R>>> GetById(int id, [FromQuery] bool includeRelated)
         {
-            try
+            _logger.LogInformation("Get item of type {type} with id = {id}", typeof(T), id);
+            var item = await _repo.GetByIdAsync(id, includeRelated);
+            if (item == null)
             {
-                _logger.LogInformation("Get item of type {type} with id = {id}", typeof(T), id);
-                var item = await _repo.GetByIdAsync(id, includeRelated);
-                if (item == null)
-                {
-                    _logger.LogWarning("Item of type {type} with id = {id} was not found", typeof(T), id);
-                    return NotFound();
-                }
-
-                var response = new ApiResponse<R> { Data = _mapper.Map<R>(item) };
-
-                return Ok(response);
+                _logger.LogWarning("Item of type {type} with id = {id} was not found", typeof(T), id);
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                return ServerError(ex);
-            }
+
+            var response = new ApiResponse<R> { Data = _mapper.Map<R>(item) };
+
+            return Ok(response);
         }
 
         [HttpPost]
         public virtual async Task<ActionResult<ApiResponse<int>>> Add([FromBody] P dto)
         {
-            try
-            {
-                _logger.LogInformation("Adding item of type {type}", typeof(T));
+            _logger.LogInformation("Adding item of type {type}", typeof(T));
 
-                var item = _mapper.Map<T>(dto);
-                // Set the CreateAt date
-                item.CreatedAt = DateTime.Now;
-                var id = await _repo.AddAsync(item);
-                var response = new ApiResponse<int> { Data = id };
+            var item = _mapper.Map<T>(dto);
+            // Set the CreateAt date
+            item.CreatedAt = DateTime.Now;
+            var id = await _repo.AddAsync(item);
+            var response = new ApiResponse<int> { Data = id };
 
-                return CreatedAtAction(nameof(GetById), new { Id = id }, response);
-            }
-            catch (Exception ex)
-            {
-                return ServerError(ex);
-            }
+            return CreatedAtAction(nameof(GetById), new { Id = id }, response);
         }
 
         [HttpPut("{id}")]
         public virtual async Task<ActionResult<ApiResponse<bool>>> Update([FromRoute] int id, [FromBody] U dto)
         {
-            try
-            {
-                _logger.LogInformation("Adding item of type {type}", typeof(T));
+            _logger.LogInformation("Adding item of type {type}", typeof(T));
 
-                var item = _mapper.Map<T>(dto);
-                // Set item Id and ModifiedAt date
-                item.Id = id;
-                item.ModifiedAt = DateTime.Now;
+            var item = _mapper.Map<T>(dto);
+            // Set item Id and ModifiedAt date
+            item.Id = id;
+            item.ModifiedAt = DateTime.Now;
 
-                var success = await _repo.UpdateAsync(item);
-                var response = new ApiResponse<bool> { Data = success };
+            var success = await _repo.UpdateAsync(item);
+            var response = new ApiResponse<bool> { Data = success };
 
-                return CreatedAtAction(nameof(GetById), new { Id = id }, response);
-            }
-            catch (Exception ex)
-            {
-                return ServerError(ex);
-            }
+            return CreatedAtAction(nameof(GetById), new { Id = id }, response);
         }
 
         [HttpDelete("{id}")]
         public virtual async Task<ActionResult> Delete(int id)
         {
-            try
+            _logger.LogInformation("Delete item of type {type} with id = {id}", typeof(T), id);
+
+            var success = await _repo.DeleteAsync(id);
+            if (!success)
             {
-                _logger.LogInformation("Delete item of type {type} with id = {id}", typeof(T), id);
-
-                var success = await _repo.DeleteAsync(id);
-                if (!success)
-                {
-                    _logger.LogWarning("Item of type {type} with id = {id} was not found", typeof(T), id);
-                    return NotFound();
-                }
-
-                return NoContent();
+                _logger.LogWarning("Item of type {type} with id = {id} was not found", typeof(T), id);
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                return ServerError(ex);
-            }
-        }
 
-        protected ActionResult ServerError(Exception ex)
-        {
-            _logger.LogError("Server error: {message}", ex.Message);
-            return Problem(statusCode: 500, title: "Server Error", detail: ex.Message, instance: HttpContext.TraceIdentifier);
+            return NoContent();
         }
     }
 }
