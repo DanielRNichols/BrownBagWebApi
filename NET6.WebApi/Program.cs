@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using NET6.WebApi.Extensions;
 using NET6.WebApi.MappingProfiles;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +15,17 @@ builder.Services.AddAuthentication(options =>
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     }).AddJwtBearer(options =>
     {
-        options.Authority = "https://dev-ygero1dp.us.auth0.com/";
-        options.Audience = "brownbagsapi";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:issuer"],
+            ValidAudience = builder.Configuration["Jwt:audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]))
+
+        };
     });
 
 

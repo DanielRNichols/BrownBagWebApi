@@ -20,5 +20,20 @@ namespace NET6.WebApi.Controllers
             IMapper mapper) : base(logger, repo, mapper)
         {
         }
+
+        [HttpGet]
+        [Authorize(Roles = "PowerUser")]
+        public override Task<ActionResult<ApiResponse<IList<PresenterResponseDto>>>> GetAll([FromQuery] QueryOptions? queryOptions)
+        {
+            return base.GetAll(queryOptions);
+        }
+
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
+        public override Task<ActionResult<ApiResponse<PresenterResponseDto>>> GetById([FromRoute] int id, [FromQuery] bool includeRelated)
+        {
+            return base.GetById(id, includeRelated);
+        }
+
     }
 }
