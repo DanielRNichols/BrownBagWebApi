@@ -10,7 +10,7 @@ using NET6.WebApi.Test.MockData;
 using System.Collections.Generic;
 using Xunit;
 
-namespace NET6.WebApi.Test
+namespace NET6.WebApi.Test.UnitTests
 {
     public class PresentersControllerTests
     {
@@ -43,7 +43,7 @@ namespace NET6.WebApi.Test
             var result = await _controller.GetAll(null);
 
             // Assert
-            var actionResult = Assert.IsType<ActionResult<ApiResponse<IList<PresenterResponseDto>>>> (result);
+            var actionResult = Assert.IsType<ActionResult<ApiResponse<IList<PresenterResponseDto>>>>(result);
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             var apiResponse = Assert.IsType<ApiResponse<IList<PresenterResponseDto>>>(okResult.Value);
             Assert.True(apiResponse.Success);
