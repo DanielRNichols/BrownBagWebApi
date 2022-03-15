@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NET6.Shared.Annotations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,7 +14,6 @@ namespace NET6.Shared.Dtos
         public string Name { get; set; } = string.Empty;
         public string Bio { get; set; } = string.Empty;
         public string Image { get; set; } = string.Empty;
-        public string ImageSmall { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
@@ -27,8 +27,10 @@ namespace NET6.Shared.Dtos
         [Required]
         public string Name { get; set; } = string.Empty;
         public string Bio { get; set; } = string.Empty;
+
+        [PresenterPostDto_ImageHasValidExtension]
+        [Presenter_ImageNameContainsPresenterName]
         public string Image { get; set; } = string.Empty;
-        public string ImageSmall { get; set; } = string.Empty;
 
     }
     public class PresenterPutDto : PresenterPostDto
