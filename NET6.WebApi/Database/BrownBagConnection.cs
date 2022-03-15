@@ -16,18 +16,21 @@ namespace NET6.WebApi.Database
 
             GetSelectStatement = (tableName, queryOptions) =>
             {
-                var sql = $"Select * from {tableName}";
+                var sql = $"SELECT * FROM {tableName}";
+
                 if (queryOptions == null)
                     return sql;
 
                 if (!String.IsNullOrWhiteSpace(queryOptions.Filter))
-                    sql = $"{sql} Where {queryOptions.Filter}";
-                if (!String.IsNullOrWhiteSpace(queryOptions.OrderBy))
-                    sql = $"{sql} order by {queryOptions.OrderBy}";
-                //if(queryOptions.Skip > 0)
-                //    sql = $"{sql} top {queryOptions.Skip}";
-                //if (queryOptions.Limit > 0)
-                //    sql = $"{sql} limit {queryOptions.Limit}";
+                    sql = $"{sql} WHERE {queryOptions.Filter}";
+
+                sql = $"{sql} ORDER BY {queryOptions.OrderBy}";
+
+                if (queryOptions.Skip > 0 || queryOptions.Limit > 0)
+                    sql = $"{sql} OFFSET {queryOptions.Skip} ROWS";
+
+                if (queryOptions.Limit > 0)
+                    sql = $"{sql} FETCH NEXT {queryOptions.Limit} ROWS ONLY";
 
 
                 return sql;
